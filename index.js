@@ -17,29 +17,23 @@ const client = new MongoClient(uri, {
   useUnifiedTopology: true,
 });
 client.connect((err) => {
-  
-  const buy = client.db("african-finex").collection("buy");
-  const sell = client.db("african-finex").collection("sell");
-  
-  console.log("Database connected");
+  const buy = client.db("express-shop").collection("buy");
+  const sell = client.db("express-shop").collection("sell");
 
-  
+  console.log("Database connected");
 
   app.post("/buy", (req, res) => {
     buy.insertOne(req.body).then((result) => {
+      console.log(result);
       res.send(result.insertedCount > 0);
     });
   });
 
-  
-  
   app.post("/sell", (req, res) => {
     sell.insertOne(req.body).then((result) => {
       res.send(result.insertedCount > 0);
     });
   });
-
-
 });
 
 app.get("/", (req, res) => {
@@ -47,5 +41,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(process.env.PORT, () => {
-  console.log(`Example app listening at http://localhost:${process.env.PORT}`);
+  console.log(`Example app listening at ${process.env.PORT}`);
 });
